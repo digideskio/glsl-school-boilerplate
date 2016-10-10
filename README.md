@@ -1,6 +1,12 @@
 #glsl-school-boilerplate :sparkles:
 webgl editronで作成した作品をファイルをコピペして、Webで実行できるようにしたものです。
 
+#Demo
+![image](https://cloud.githubusercontent.com/assets/1988660/19225658/5456bf3e-8edb-11e6-80d1-f8a1a281f031.png)
+[002:vertex attributeを実行したDemo](https://naoyashiga.github.io/glsl-school-boilerplate/dist/)
+
+Canvasが全画面になっているので、横に伸びた形になっていますw。正方形に直す場合は、CSSやJSを使って調整しましょう。
+
 #環境設定
 
 ##clone
