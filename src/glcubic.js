@@ -1,3 +1,6 @@
+// Thanks doxas
+// https://github.com/doxas/webgl_editron/blob/master/app/lib/glcubic.js
+
 'use strict';
 
 var gl3 = gl3 || {};
@@ -1370,4 +1373,5 @@ gl3.audioSrc.prototype.stop = function(){
 
 gl3.audio = new gl3.audioCtr();
 
+// importで読み込めるようにexportさせる
 module.exports = gl3;
