@@ -85,6 +85,7 @@ import WE from './Config'
 # Todo
 
 * [ ] canvasのresize対応
+* [ ] WE.images対応
 
 #参考
 - [step by stepで始めるwebpack - Qiita](http://qiita.com/howdy39/items/48d85c430f90a21075cd)
