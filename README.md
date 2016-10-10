@@ -87,6 +87,8 @@ import WE from './Config'
 * [ ] canvasのresize対応
 
 #参考
+- [step by stepで始めるwebpack - Qiita](http://qiita.com/howdy39/items/48d85c430f90a21075cd)
+- [webpack-dev-serverの基本的な使い方とポイント - dackdive's blog](http://dackdive.hateblo.jp/entry/2016/05/07/183335)
 - [stackgl/glslify-loader: glslify loader module for webpack](https://github.com/stackgl/glslify-loader)
   - glslifyをwebpackで使うために必要
 
