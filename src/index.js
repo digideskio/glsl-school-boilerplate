@@ -1,7 +1,5 @@
 import gl3 from './glcubic'
-
-import myVertexShader from './shader/index.vert'
-import myFragmentShader from './shader/index.frag'
+import WE from './Config'
 
 // ============================================================================
 //
@@ -61,10 +59,8 @@ import myFragmentShader from './shader/index.frag'
     function init(){
         // glcubic でプログラムオブジェクトのラッパーを生成
         var prg = gl3.program.create_from_source(
-            myVertexShader,
-            myFragmentShader,
-            // WE.vs,
-            // WE.fs,
+            WE.vs,
+            WE.fs,
             ['position', 'color'],
             [3, 4],
             ['mvpMatrix'],
@@ -106,7 +102,7 @@ import myFragmentShader from './shader/index.frag'
         gl.depthFunc(gl.LEQUAL);
 
         // レンダリング許可フラグを立ててレンダリング開始
-        // WE.run = true;
+        WE.run = true;
         render();
 
         // レンダリング関数
@@ -147,8 +143,7 @@ import myFragmentShader from './shader/index.frag'
             gl3.draw_elements(gl.TRIANGLES, planeIndex.length);
 
             // フラグをチェックして再帰
-            // if(WE.run){requestAnimationFrame(render);}
-            requestAnimationFrame(render);
+            if(WE.run){requestAnimationFrame(render);}
         }
     }
 
