@@ -15,7 +15,7 @@ $npm install
 ```
 
 #ファイル構成
-主なファイル構成は以下のようになります。
+主なファイル構成。
 ```
 ├── dist
 │   ├── bundle.js
@@ -37,17 +37,19 @@ $npm install
 ```
 $npm start
 ```
-webpack-dev-serverをinlineで起動します。
+webpack-dev-serverをinlineで起動。
 
 ##出力
 ```
 $webpack
 ```
-distフォルダ以下にbundle.js、index.htmlが出力されます。
+distフォルダ以下にbundle.js、index.htmlが出力。
 
 ##ファイルの変更
 ###JS
 「src/index.js」を編集。
+
+es6のimportを使用しています。es6の書き方については[こちら](http://postd.cc/es6-cheatsheet/#modules)をお読みください :bow:
 ```js
 import gl3 from './glcubic'
 import WE from './Config'
