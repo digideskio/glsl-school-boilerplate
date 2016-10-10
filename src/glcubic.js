@@ -1,12 +1,9 @@
-// license
-// https://github.com/doxas/glcubic.js
-
 'use strict';
 
 var gl3 = gl3 || {};
 
 // const
-gl3.VERSION = '0.0.4';
+gl3.VERSION = '0.0.4b';
 gl3.PI2  = 6.28318530717958647692528676655900576;
 gl3.PI   = 3.14159265358979323846264338327950288;
 gl3.PIH  = 1.57079632679489661923132169163975144;
@@ -36,9 +33,19 @@ gl3.textureUnitCount = null;
 
 // initialize webgl
 gl3.initGL = function(canvasId, options){
-    var opt = options || {};
     this.ready = false;
-    this.canvas = document.getElementById(canvasId);
+    this.canvas = null;
+    this.gl = null;
+    this.textures = null;
+    this.textureUnitCount = null;
+    if(Object.prototype.toString.call(canvasId) === '[object String]'){
+        this.canvas = document.getElementById(canvasId);
+    }else{
+        if(Object.prototype.toString.call(canvasId) === '[object HTMLCanvasElement]'){
+            this.canvas = canvasId;
+        }
+    }
+    var opt = options || {};
     if(this.canvas == null){return false;}
     this.gl = this.canvas.getContext('webgl', opt)
            || this.canvas.getContext('experimental-webgl', opt);
@@ -115,6 +122,7 @@ gl3.program = {
         mng.vs = mng.create_shader(vsId);
         mng.fs = mng.create_shader(fsId);
         mng.prg = mng.create_program(mng.vs, mng.fs);
+        if(!mng.prg){return null;}
         mng.attL = new Array(attLocation.length);
         mng.attS = new Array(attLocation.length);
         for(i = 0; i < attLocation.length; i++){
@@ -136,6 +144,7 @@ gl3.program = {
         mng.vs = mng.create_shader_from_source(vs, gl3.gl.VERTEX_SHADER);
         mng.fs = mng.create_shader_from_source(fs, gl3.gl.FRAGMENT_SHADER);
         mng.prg = mng.create_program(mng.vs, mng.fs);
+        if(!mng.prg){return null;}
         mng.attL = new Array(attLocation.length);
         mng.attS = new Array(attLocation.length);
         for(i = 0; i < attLocation.length; i++){
@@ -183,6 +192,7 @@ gl3.program = {
             mng.vs = mng.create_shader_from_source(src.vs.source, gl3.gl.VERTEX_SHADER);
             mng.fs = mng.create_shader_from_source(src.fs.source, gl3.gl.FRAGMENT_SHADER);
             mng.prg = mng.create_program(mng.vs, mng.fs);
+            if(!mng.prg){return null;}
             mng.attL = new Array(attLocation.length);
             mng.attS = new Array(attLocation.length);
             for(i = 0; i < attLocation.length; i++){
@@ -238,7 +248,7 @@ gl3.programManager.prototype.create_shader = function(id){
 };
 
 gl3.programManager.prototype.create_shader_from_source = function(source, type){
-    var shader;
+    var shader, msg;
     switch(type){
         case this.gl.VERTEX_SHADER:
             shader = this.gl.createShader(this.gl.VERTEX_SHADER);
@@ -254,7 +264,9 @@ gl3.programManager.prototype.create_shader_from_source = function(source, type){
     if(this.gl.getShaderParameter(shader, this.gl.COMPILE_STATUS)){
         return shader;
     }else{
-        console.warn('◆ compile failed of shader: ' + this.gl.getShaderInfoLog(shader));
+        msg = this.gl.getShaderInfoLog(shader);
+        alert(msg);
+        console.warn('◆ compile failed of shader: ' + msg);
     }
 };
 
@@ -268,6 +280,7 @@ gl3.programManager.prototype.create_program = function(vs, fs){
         return program;
     }else{
         console.warn('◆ link program failed: ' + this.gl.getProgramInfoLog(program));
+        return null;
     }
 };
 
@@ -382,6 +395,25 @@ gl3.create_texture = function(source, number, callback){
         if(callback != null){callback(number);}
     };
     img.src = source;
+};
+
+gl3.create_texture_fromsource = function(image, number){
+    if(image == null || number == null){return;}
+    var gl = this.gl;
+    var tex = gl.createTexture();
+    this.textures[number] = {texture: null, type: null, loaded: false};
+    gl.bindTexture(gl.TEXTURE_2D, tex);
+    gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, image);
+    gl.generateMipmap(gl.TEXTURE_2D);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.REPEAT);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.REPEAT);
+    this.textures[number].texture = tex;
+    this.textures[number].type = gl.TEXTURE_2D;
+    this.textures[number].loaded = true;
+    console.log('%c◆%c texture number: %c' + number + '%c, image data attached', 'color: crimson', '', 'color: blue', '');
+    gl.bindTexture(gl.TEXTURE_2D, null);
 };
 
 gl3.create_texture_canvas = function(canvas, number){
@@ -1246,7 +1278,7 @@ gl3.audioCtr.prototype.load = function(url, index, loop, background, callback){
         ctx.decodeAudioData(xml.response, function(buf){
             src[index] = new gl3.audioSrc(ctx, gain, buf, loop, background);
             src[index].loaded = true;
-            console.log('%c◆%c audio number: %c' + index + '%c, audio loaded: %c' + url, 'color: crimson', '', 'color: blue', '', 'color: goldenrod');
+            console.log('◆ audio number: ' + index + ', audio loaded: ' + url, 'color: crimson', '', 'color: blue', '', 'color: goldenrod');
             callback();
         }, function(e){console.log(e);});
     };

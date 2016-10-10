@@ -29,6 +29,8 @@ module.exports = {
         test: /\.json$/,
         loader: 'json-loader'
       },
+      { test: /\.(glsl|frag|vert)$/, loader: 'raw', exclude: /node_modules/ },
+      { test: /\.(glsl|frag|vert)$/, loader: 'glslify', exclude: /node_modules/ }
     ]
   }
 };
