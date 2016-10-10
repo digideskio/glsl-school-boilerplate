@@ -1,10 +1,16 @@
-#glsl-school-boilerplate
+#glsl-school-boilerplate :sparkles:
 webgl editronで作成した作品をファイルをコピペして、Webで実行できるようにしたものです。
 
 #環境設定
 
+##clone
+```
+$git clone https://github.com/naoyashiga/glsl-school-boilerplate.git
+```
+
 ##必要なモジュールをinstall
 ```
+$cd glsl-school-boilerplate
 $npm install
 ```
 
@@ -41,6 +47,7 @@ distフォルダ以下にbundle.js、index.htmlが出力されます。
 
 ##ファイルの変更
 ###JS
+「src/index.js」を編集。
 ```js
 import gl3 from './glcubic'
 import WE from './Config'
@@ -53,6 +60,19 @@ import WE from './Config'
 
 // ここにJSをペーストする
 ```
+
+###html
+「src/index.html」を編集。
+
+###shader
+- vs
+  - 「src/shader/vs.vert」を編集
+- fs
+  - 「src/shader/fs.frag」を編集
+- vsp
+  - 「src/shader/vsp.vert」を編集
+- fsp
+  - 「src/shader/fs.frag」を編集
 
 # Todo
 
